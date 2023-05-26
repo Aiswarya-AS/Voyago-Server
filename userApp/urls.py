@@ -35,5 +35,6 @@ urlpatterns = [
         views.cancelBooking,
         name="cancelBooking",
     ),
-    path('endJourney/<int:id>', views.endJourney, name='endJourney')
+    path('endJourney/<int:id>', views.endJourney, name='endJourney'),
+    path('availableDates/<int:id>', views.availableDates, name='availableDates')
 ]

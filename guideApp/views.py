@@ -89,14 +89,14 @@ def guide_requests(request, id):
 
 @api_view(["POST"])
 def accept(request, id):
-    request = Request.objects.get(id=id)
-    # print(request.user)
-    request.status = "Accepted"
+    request = Guide.objects.get(id=id)
+    print(request.email)
+    request.is_accepted = True
     request.save()
     subject = "Test Email"
     message = "This is a test email"
     email_from = "aiswaryaasubash@gmail.com"
-    recipient_list = ["aiswaryaas809@gmail.com"]
+    recipient_list = [request.email]
 
     send_mail(subject, message, email_from, recipient_list)
     return Response({"status": "true", "request_status": request.status})
@@ -129,15 +129,15 @@ def sendOtp(request, id, guide_id):
 
     otp = Otp.objects.create(user=user, guide=guide, otp=otp_num)
     otp.save()
-    # account_sid = settings.TWILIO_ACCOUNT_SID
-    # auth_token = settings.TWILIO_AUTH_TOKEN
-    # client = Client(account_sid, auth_token)
+    account_sid = settings.TWILIO_ACCOUNT_SID
+    auth_token = settings.TWILIO_AUTH_TOKEN
+    client = Client(account_sid, auth_token)
 
-    # message = client.messages.create(
-    #     body=f'Your OTP is {otp_num}',
-    #     from_=settings.TWILIO_PHONE_NUMBER,
-    #     to=phone_number
-    # )
+    message = client.messages.create(
+        body=f'Your OTP is {otp_num}',
+        from_=settings.TWILIO_PHONE_NUMBER,
+        to=phone_number
+    )
     return Response({"status": "true"})
 
 

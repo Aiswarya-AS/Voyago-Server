@@ -351,3 +351,8 @@ def endJourney(request, id):
     order.journey_status = "end"
     order.save()
     return Response({"status": "true"})
+
+
+@api_view(['GET'])
+def availableDates(request, id):
+    pass

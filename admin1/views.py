@@ -9,6 +9,7 @@ from .models import AdminWallet
 from django.db.models import Sum
 from django.core.mail import send_mail
 from django.db.models import Count, Q
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 
@@ -46,10 +47,14 @@ def admin_login(request):
     email = request.data["email"]
     password = request.data["password"]
     try:
-        user = AdminUser.objects.get(email=email, password=password)
-        payload = {"email": user.email, "password": user.password}
-        jwt_token = jwt.encode(payload, "secret", algorithm="HS256")
-        return Response({"status": "true", "admin_jwt": jwt_token})
+        user = AdminUser.objects.get(email=email)
+        print(user)
+        if check_password(password, user.password):
+            payload = {"email": user.email, "password": user.password}
+            jwt_token = jwt.encode(payload, "secret", algorithm="HS256")
+            return Response({"status": "true", "admin_jwt": jwt_token})
+        else:
+            return Response({'status': 'incorrect password'})
     except AdminUser.DoesNotExist:
         return Response({"status": "User Not Found"})
 
