@@ -97,6 +97,24 @@ def block_guide(request, id):
     return Response({"status": "true"})
 
 
+# @api_view(["POST"])
+# def add_destination(request):
+#     state = request.data["state"]
+#     country = request.data["country"]
+#     location = request.data["location"]
+#     short_desc = request.data["short_desc"]
+#     description = request.data["description"]
+#     image = request.data["image"]
+#     d = Destination.objects.create(
+#         state=state,
+#         country=country,
+#         location=location,
+#         short_desc=short_desc,
+#         description=description,
+#         thumbnail=image,
+#     )
+#     return Response({"status": "true"})
+
 @api_view(["POST"])
 def add_destination(request):
     state = request.data["state"]
@@ -113,7 +131,11 @@ def add_destination(request):
         description=description,
         thumbnail=image,
     )
-    return Response({"status": "true"})
+
+    response = Response({"status": "true"})
+    response["Access-Control-Allow-Origin"] = "https://admin.tourwhiz.online"
+    
+    return response
 
 
 @api_view(["GET"])
