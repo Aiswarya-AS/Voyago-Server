@@ -249,6 +249,7 @@ def userUpdate(request, id):
     user.lastname = last_name
     user.email = email
     user.phone = phone
+    user.profile_pic = request.data['image']
     user.save()
     return Response({"status": "true"})
 

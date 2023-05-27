@@ -14,8 +14,9 @@ class User(models.Model):
     password = models.CharField(max_length=250)
     phone = models.BigIntegerField()
     is_superuser = models.BooleanField(default=False)
-    is_blocked = models.BooleanField(default=True)
-    profile_pic = CloudinaryField("user", null=True)
+    is_blocked = models.BooleanField(default=False)
+    profile_pic = CloudinaryField(
+        "user", null=True, default='user/download.jpeg')
     is_updated = models.DateTimeField(auto_now=True)
     is_created = models.DateTimeField(auto_now_add=True)
 

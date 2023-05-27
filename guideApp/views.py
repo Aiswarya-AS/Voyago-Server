@@ -129,15 +129,15 @@ def sendOtp(request, id, guide_id):
 
     otp = Otp.objects.create(user=user, guide=guide, otp=otp_num)
     otp.save()
-    account_sid = settings.TWILIO_ACCOUNT_SID
-    auth_token = settings.TWILIO_AUTH_TOKEN
-    client = Client(account_sid, auth_token)
+    # account_sid = settings.TWILIO_ACCOUNT_SID
+    # auth_token = settings.TWILIO_AUTH_TOKEN
+    # client = Client(account_sid, auth_token)
 
-    message = client.messages.create(
-        body=f'Your OTP is {otp_num}',
-        from_=settings.TWILIO_PHONE_NUMBER,
-        to=phone_number
-    )
+    # message = client.messages.create(
+    #     body=f'Your OTP is {otp_num}',
+    #     from_=settings.TWILIO_PHONE_NUMBER,
+    #     to=phone_number
+    # )
     return Response({"status": "true"})
 
 
