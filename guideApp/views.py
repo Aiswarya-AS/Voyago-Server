@@ -89,16 +89,9 @@ def guide_requests(request, id):
 
 @api_view(["POST"])
 def accept(request, id):
-    request = Guide.objects.get(id=id)
-    print(request.email)
-    request.is_accepted = True
+    request = Request.objects.get(id=id)
+    request.status = 'Accepted'
     request.save()
-    subject = "Test Email"
-    message = "This is a test email"
-    email_from = "aiswaryaasubash@gmail.com"
-    recipient_list = [request.email]
-
-    send_mail(subject, message, email_from, recipient_list)
     return Response({"status": "true", "request_status": request.status})
 
 

@@ -56,7 +56,8 @@ def user_login(request):
     except Exception:
         return Response({"status": "Please provide all the details.."})
     try:
-        user = User.objects.get(email=email, password=password, is_blocked=False)
+        user = User.objects.get(
+            email=email, password=password, is_blocked=False)
         payload = {
             "email": user.email,
             "password": user.password,
@@ -95,10 +96,10 @@ def destination_details(request, id):
 
 @api_view(["GET"])
 def guides(request, place):
-    # query=request.data['place']
-    print(place)
+    # query = request.data['place']
+    # print(place)
     try:
-        guides = Guide.objects.filter(place="Japan")
+        guides = Guide.objects.filter(country__icontains=place)
         serializer = GuideSerializer(guides, many=True)
         return Response(serializer.data)
     except Exception:
@@ -281,7 +282,8 @@ def history(request, id):
 @api_view(["GET"])
 def comments(request, id):
     comments = Rating.objects.filter(guide_id=id).order_by("-is_created")
-    avg_rating = Rating.objects.aggregate(avg_field=Avg("rating")).get("avg_field", 0)
+    avg_rating = Rating.objects.aggregate(
+        avg_field=Avg("rating")).get("avg_field", 0)
     avg_rating = round(avg_rating, 2)
     serializer = RatingSerializer(comments, many=True)
     return Response({"comments": serializer.data, "avg": avg_rating})
